@@ -137,6 +137,41 @@ npm run lint      # ESLint
 
 ---
 
+## Regla: Spec-Driven Development (OpenSpec)
+
+**Toda feature nueva o cambio significativo DEBE tener su spec escrita ANTES de implementar.**
+
+Seguimos el formato [OpenSpec (Fission-AI)](https://github.com/Fission-AI/OpenSpec):
+
+```
+openspec/
+├── specs/          # Source of truth — specs de lo ya implementado
+│   └── <domain>/spec.md
+└── changes/        # Propuestas activas — specs ANTES de codear
+    └── <change-name>/
+        ├── proposal.md   ← intent, scope, approach
+        ├── design.md     ← decisiones técnicas
+        ├── tasks.md      ← checklist atómico de implementación
+        └── specs/        ← delta: ADDED / MODIFIED / REMOVED
+```
+
+### Flujo obligatorio
+
+1. **Proponer** → crear `openspec/changes/<nombre>/proposal.md` con intent, scope, approach
+2. **Especificar** → escribir delta specs en `changes/<nombre>/specs/` con scenarios GIVEN/WHEN/THEN
+3. **Diseñar** → documentar decisiones técnicas en `design.md`
+4. **Tareas** → listar pasos atómicos en `tasks.md`
+5. **Implementar** → codear siguiendo la spec, NO inventar sobre la marcha
+6. **Archivar** → mover delta a `openspec/specs/` una vez mergeado a `dev`
+
+### Reglas
+
+- Ningún componente nuevo entra a `dev` sin su spec en `openspec/`
+- Los scenarios usan lenguaje normativo: **SHALL** para requerimientos, **GIVEN/WHEN/THEN** para scenarios
+- Si durante la implementación algo cambia respecto a la spec, actualizar la spec primero
+
+---
+
 ## Decisiones de diseño clave
 
 - **Sin SSR**: El mapa requiere `window`/`document`, no tiene sentido renderizarlo en servidor.
