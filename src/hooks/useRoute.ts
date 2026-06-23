@@ -1,19 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchRoute } from '@/services/routeService'
+import { fetchSafeRoutes } from '@/services/routeService'
 import { useRouteStore } from '@/store/routeStore'
+import { buildBuenosAiresDatetime } from '@/utils/datetime'
 
 export function useRoute() {
   const { origin, destination, hour } = useRouteStore()
 
   return useQuery({
-    queryKey: ['route', origin, destination, hour],
+    queryKey: ['safe-routes', origin, destination, hour],
     queryFn: () =>
-      fetchRoute({
-        from: [origin!.lat, origin!.lng],
-        to: [destination!.lat, destination!.lng],
-        hour,
-      }),
+      fetchSafeRoutes(
+        { lat: origin!.lat, lng: origin!.lng },
+        { lat: destination!.lat, lng: destination!.lng },
+        buildBuenosAiresDatetime(hour),
+      ),
     enabled: Boolean(origin && destination),
     staleTime: 5 * 60 * 1000,
+    retry: false,
   })
 }

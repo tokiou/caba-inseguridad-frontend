@@ -1,15 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-safe: #22c55e;
-  --color-moderate: #f59e0b;
-  --color-danger: #ef4444;
-  --color-no-data: #6b7280;
+  /* Tipografía: Inter — neutra, técnica, legible (flat minimal) */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 
+  /* Paleta de seguridad premium */
+  --color-safe: #00e599;
+  --color-moderate: #f5b82e;
+  --color-danger: #ff4d4d;
+  --color-no-data: #7b8191;
+  --color-info: #00d7ff;
+
+  /* Superficies */
   --color-surface: #0f1117;
-  --color-surface-2: #1a1d27;
-  --color-surface-3: #22263a;
-  --color-border: #2e3348;
+  --color-surface-2: #151821;
+  --color-surface-3: #181b24;
+  --color-border: rgba(255, 255, 255, 0.08);
+
+  /* Texto */
+  --color-text-primary: #f5f7fa;
+  --color-text-secondary: #8b93a7;
+  --color-text-muted: #626b7f;
+
+  --animate-slide-up: slide-up 300ms ease-out both;
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 * {
@@ -22,7 +46,242 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--color-surface);
+  background-color: #07080a;
   color: #f3f4f6;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Panel lateral (flat minimal, aireado) ---------- */
+
+/* Superficie sólida y limpia, esquinas suaves, elevación sutil.
+   Sin cajas internas: las secciones se separan con aire y divisores finos. */
+.side-panel {
+  background: #0d0e12;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+
+/* Divisor fino entre secciones */
+.hairline {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Campo de entrada flat con foco verde */
+.field {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    border-color 140ms ease,
+    background 140ms ease;
+}
+.field:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.field:focus-within {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Etiqueta "eyebrow": Inter, mayúsculas, tracking, atenuada */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6e7689;
+}
+
+/* Pill flotante (leyenda, mini-resumen) */
+.glass-pill {
+  background: rgba(15, 17, 23, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* CTA principal — monocromo (blanco sobre negro), única acción fuerte */
+.btn-primary {
+  background: #f5f7fa;
+  color: #0a0b0e;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  transition:
+    background 140ms ease,
+    transform 140ms ease,
+    box-shadow 140ms ease;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+.btn-primary:disabled {
+  background: rgba(255, 255, 255, 0.08);
+  color: #5a6173;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.panel-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.panel-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.panel-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+/* ---------- Slider de horario ---------- */
+
+.time-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  cursor: pointer;
+}
+.time-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 0;
+  background: #f5f7fa;
+  border: 3px solid #0d0e12;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: box-shadow 140ms ease;
+}
+.time-slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18);
+}
+.time-slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 0;
+  background: #f5f7fa;
+  border: 3px solid #0d0e12;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+/* ---------- Popup de segmento (override MapLibre) ---------- */
+
+.route-popup .maplibregl-popup-content {
+  background: rgba(13, 15, 23, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  padding: 14px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-family: inherit;
+  min-width: 230px;
+}
+.route-popup .maplibregl-popup-tip {
+  display: none;
+}
+
+.rp-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.rp-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+.rp-level {
+  font-size: 13px;
+  font-weight: 600;
+}
+.rp-kind {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  padding: 2px 8px;
+}
+.rp-note {
+  margin: 10px 0 0;
+  font-size: 10px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.38);
+}
+.rp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 6px;
+}
+.rp-row svg {
+  flex-shrink: 0;
+}
+.rp-row b {
+  color: #fff;
+  font-weight: 700;
+}
+.rp-chart {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.rp-chart-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0 0 8px;
+}
+.rp-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+.rp-bar-hour {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  width: 54px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.rp-bar-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.rp-bar-fill {
+  height: 100%;
+  border-radius: 0;
+}
+.rp-bar-count {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  width: 18px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }

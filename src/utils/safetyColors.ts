@@ -1,19 +1,24 @@
-import type { SafetyLevel } from '@/types/route'
+import type { RiskLevel, RouteKind } from '@/types/route'
 
-export const SAFETY_COLORS: Record<SafetyLevel, string> = {
-  safe: '#22c55e',
-  moderate: '#f59e0b',
-  danger: '#ef4444',
-  no_data: '#6b7280',
+/** Color por nivel de riesgo agregado (badges del panel / popup). */
+export const RISK_COLORS: Record<RiskLevel, string> = {
+  low: '#00E599',
+  moderate: '#F5B82E',
+  high: '#FF4D4D',
 }
 
-export function scoreToLevel(score: number): SafetyLevel {
-  if (score >= 0.7) return 'safe'
-  if (score >= 0.4) return 'moderate'
-  if (score >= 0) return 'danger'
-  return 'no_data'
+/** Color de la línea por tipo de ruta en el mapa (ver contrato §7). */
+export const KIND_COLORS: Record<RouteKind, string> = {
+  safest: '#00E599',
+  balanced: '#F5B82E',
+  fastest: '#FF4D4D',
+  least_safe_candidate: '#7B8191',
 }
 
-export function scoreToColor(score: number): string {
-  return SAFETY_COLORS[scoreToLevel(score)]
+export function riskLevelColor(level: RiskLevel): string {
+  return RISK_COLORS[level]
+}
+
+export function kindColor(kind: RouteKind): string {
+  return KIND_COLORS[kind]
 }
