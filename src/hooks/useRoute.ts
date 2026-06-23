@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { fetchSafeRoutes } from '@/services/routeService'
+import { useAuthStore } from '@/store/authStore'
 import { useRouteStore } from '@/store/routeStore'
 import { buildBuenosAiresDatetime } from '@/utils/datetime'
 
 export function useRoute() {
   const { origin, destination, hour } = useRouteStore()
+  const isAuthenticated = useAuthStore((s) => s.status === 'authenticated')
 
   return useQuery({
     queryKey: ['safe-routes', origin, destination, hour],
@@ -14,7 +16,8 @@ export function useRoute() {
         { lat: destination!.lat, lng: destination!.lng },
         buildBuenosAiresDatetime(hour),
       ),
-    enabled: Boolean(origin && destination),
+    // El endpoint es protegido: no disparar sin sesión.
+    enabled: isAuthenticated && Boolean(origin && destination),
     staleTime: 5 * 60 * 1000,
     retry: false,
   })

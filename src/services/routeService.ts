@@ -1,6 +1,5 @@
 import type { ApiError, LatLng, SafeRoutesResponse } from '@/types/route'
-
-const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
+import { authFetch } from '@/services/authService'
 
 /** Error tipado que conserva el código máquina del backend y el X-Request-Id. */
 export class SafeRoutesError extends Error {
@@ -51,9 +50,8 @@ export async function fetchSafeRoutes(
   destination: LatLng,
   datetime?: string,
 ): Promise<SafeRoutesResponse> {
-  const res = await fetch(
-    `${BASE_URL}/api/v1/routes/safe?${buildParams(origin, destination, datetime)}`,
-  )
+  // Endpoint protegido: authFetch agrega el Bearer y auto-refresca ante 401.
+  const res = await authFetch(`/routes/safe?${buildParams(origin, destination, datetime)}`)
   const requestId = res.headers.get('X-Request-Id')
 
   if (!res.ok) {

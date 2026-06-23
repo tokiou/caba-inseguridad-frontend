@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { Sun, Moon, Layers, ChevronDown } from 'lucide-react'
+import { Sun, Moon, Layers, ChevronDown, LogOut } from 'lucide-react'
 import AddressAutocomplete from '@/components/route/AddressAutocomplete'
 import MapLayersList from './MapLayersList'
+import { useAuth } from '@/hooks/useAuth'
 import { useRouteStore } from '@/store/routeStore'
 import { useUIStore } from '@/store/uiStore'
 import type { AddressSuggestion } from '@/types/map'
@@ -9,6 +10,7 @@ import type { AddressSuggestion } from '@/types/map'
 export default function TopBar() {
   const setFocusPoint = useRouteStore((s) => s.setFocusPoint)
   const { basemap, toggleBasemap } = useUIStore()
+  const { user, logout } = useAuth()
   const [query, setQuery] = useState('')
   const [layersOpen, setLayersOpen] = useState(false)
   const layersRef = useRef<HTMLDivElement>(null)
@@ -71,6 +73,22 @@ export default function TopBar() {
             </div>
           )}
         </div>
+
+        {user && (
+          <div className="flex h-11 items-center gap-2 border border-white/[0.08] bg-[#14161c]/90 pl-3.5 pr-1.5 text-sm text-[#C7CDDA] backdrop-blur-md">
+            <span className="max-w-[160px] truncate text-[#8B93A7]" title={user.email}>
+              {user.email}
+            </span>
+            <button
+              type="button"
+              onClick={() => void logout()}
+              className="flex h-8 w-8 items-center justify-center text-[#8B93A7] transition hover:text-[#F5556B]"
+              title="Cerrar sesión"
+            >
+              <LogOut size={15} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
